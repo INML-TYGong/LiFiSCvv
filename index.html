@@ -1,101 +1,635 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Live High-Fidelity Semantic Communication via Cross-modal Fusion for Volumetric Video</title>
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-    body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: #f9fafb;
-      color: #20232a;
-      line-height: 1.6;
-      padding: 2rem 1rem;
-      display: flex;
-      justify-content: center;
-    }
-    .container {
-      max-width: 900px;
-      background: #fff;
-      border-radius: 12px;
-      box-shadow: 0 12px 30px rgba(0,0,0,0.1);
-      padding: 2.5rem 3rem;
-    }
-    h1 {
-      color: #2563eb;
-      font-weight: 700;
-      font-size: 1.8rem; /* 缩小标题字体 */
-      margin-bottom: 1.5rem;
-      text-align: center;
-    }
-    img {
-      display: block;
-      max-width: 100%;
-      border-radius: 12px;
-      box-shadow: 0 8px 20px rgb(37 99 235 / 0.3);
-      margin: 1.5rem auto 1rem auto;
-    }
-    p {
-      font-size: 1.125rem;
-      color: #374151;
-      text-align: justify;
-      white-space: pre-line;
-      margin-bottom: 1.25rem;
-    }
-    strong {
-      font-weight: 700;
-    }
-    .italic {
-      font-style: italic;
-    }
-    .highlight {
-      font-weight: 700;
-      color: #2563eb;
-    }
-    ol {
-      margin-left: 1.3rem;
-      margin-bottom: 1.5rem;
-      color: #374151;
-      font-size: 1.125rem;
-    }
-    li {
-      margin-bottom: 0.5rem;
-    }
-    @media (max-width: 600px) {
-      .container {
-        padding: 2rem 1.5rem;
-      }
-      h1 {
-        font-size: 1.5rem;
-      }
-      p, li {
-        font-size: 1rem;
-      }
-    }
-  </style>
+
+<head lang="en">
+    <meta charset="UTF-8" />
+    <meta http-equiv="x-ua-compatible" content="ie=edge" />
+
+    <title>LiFiSCvv</title>
+
+    <meta name="description" content="" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:width" content="1711" />
+    <meta property="og:image:height" content="576" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://inml-tygong.github.io/LiFiSCvv/" />
+    <meta property="og:title" content="LiFiSCvv: Live High-Fidelity Semantic Communication via Cross-modal Fusion for Volumetric Video" />
+    <link rel="icon"
+        href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🌐</text></svg>" />
+
+    <!-- Bootstrap 3 -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" />
+    <!-- FontAwesome 4 -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" />
+    <!-- CodeMirror CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.8.0/codemirror.min.css" />
+
+    <!-- Custom Styles -->
+    <link rel="stylesheet" href="css/fontawesome.all.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css" />
+
+    <!-- Styles from your two sets combined -->
+    <style>
+        /* Reset and base styling (from second CSS snippet) */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            height: 100%;
+            background: #fefefe;
+            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+        }
+
+        /* Container and overall box style from first snippet */
+        #main.container-lg {
+            max-width: 1250px;
+            margin: 40px auto 60px auto;
+            padding: 30px 30px 40px 30px;
+            box-sizing: border-box;
+            background: #fff;
+            border-radius: 14px;
+            box-shadow: 0 15px 38px rgba(0, 0, 0, 0.12);
+        }
+
+        /* Title styling */
+        h2.col-md-12.text-center {
+            font-size: 3rem !important;
+            font-weight: 600;
+            margin-bottom: 15px;
+            line-height: 1.3;
+            color: #111;
+            text-shadow: 1px 1px 3px #eee;
+        }
+
+        /* Author list inline styling */
+        ul.list-inline {
+            font-size: 1.7rem;
+            margin-bottom: 15px;
+        }
+
+        ul.list-inline>li {
+            padding: 0 12px;
+            font-weight: 600;
+            color: #444;
+        }
+
+        /* Affiliations */
+        .col-md-12.text-center[style] {
+            font-size: 1.6rem !important;
+            color: #666;
+            line-height: 1.5;
+            margin-bottom: 30px;
+            letter-spacing: 0.03em;
+        }
+
+        /* Abstract and paragraphs */
+        h3 {
+            font-weight: 700;
+            color: #1646ff;
+            margin-top: 40px;
+            margin-bottom: 15px;
+        }
+
+        p.text-justify {
+            font-size: 1.25rem;
+            color: #333;
+            margin-bottom: 35px;
+            text-align: justify;
+            line-height: 1.6;
+            user-select: text;
+            word-break: break-word;
+        }
+
+        /* Pipeline and overview images */
+        img#pipeline-ours,
+        img[src$="overview.png"] {
+            border-radius: 12px;
+            box-shadow: 0 8px 22px rgba(0, 0, 0, 0.12);
+            margin-bottom: 30px;
+            max-width: 100%;
+            height: auto;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Equation stylings subtle colors */
+        h3 b i font[color="#118ab2"],
+        h3 b i font[color="#ef486e"] {
+            font-weight: bold;
+            color: inherit;
+        }
+
+        /* Responsive */
+        @media (max-width: 900px) {
+            h2.col-md-12.text-center {
+                font-size: 2rem !important;
+            }
+
+            ul.list-inline {
+                font-size: 1.3rem;
+            }
+
+            .col-md-12.text-center[style] {
+                font-size: 1.2rem !important;
+            }
+
+            p.text-justify {
+                font-size: 1rem;
+            }
+        }
+
+        /* =======================
+           Image Comparison Styles
+           ======================= */
+
+        .wrapper {
+            position: relative;
+            height: 500px;
+            width: 500px;
+            margin: 40px auto 80px auto;
+            overflow: hidden;
+            background: #fff;
+            border-radius: 14px;
+            border: 7px solid #fff;
+            box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.15);
+        }
+
+        .wrapper .images{
+            height: 100%;
+            width: 100%;
+            display: flex;
+        }
+
+        .wrapper .images .img-1 {
+            height: 100%;
+            width: 100%;
+            /* background: url("images/bathroom_hevc.png") no-repeat; */
+        }
+
+        .wrapper .images .img-2 {
+            position: absolute;
+            height: 100%;
+            width: 50%;
+            /* filter: blur(5px); */
+            /* background: url("images/bathroom_ours.png") no-repeat; */
+            /* background: url("images/car.png") no-repeat; */
+        }
+
+        .wrapper .slider {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 100%;
+            z-index: 99;
+            cursor: col-resize;
+        }
+
+        .wrapper .slider input{
+            width: 100%;
+            outline: none;
+            background: none;
+            -webkit-appearance: none;
+        }
+
+        /* Hide default appearance */
+        .slider input::-webkit-slider-thumb{
+            height: 486px;
+            width: 3px;
+            background: none;
+            -webkit-appearance: none;
+            cursor: col-resize;
+        }
+
+        /* Drag line styling */
+        .slider .drag-line {
+            width: 3px;
+            height: 486px;
+            position: absolute;
+            left: 49.85%;
+            pointer-events: none;
+        }
+
+        .slider .drag-line::before,
+        .slider .drag-line::after {
+            position: absolute;
+            content: "";
+            width: 100%;
+            height: 222px;
+            background: #fff;
+        }
+
+        .slider .drag-line::before {
+            top: 0;
+        }
+
+        .slider .drag-line::after {
+            bottom: 0;
+        }
+
+        .slider .drag-line span {
+            height: 42px;
+            width: 42px;
+            border: 3px solid #fff;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+        }
+
+        .slider .drag-line span::before,
+        .slider .drag-line span::after {
+            position: absolute;
+            content: "";
+            top: 50%;
+            border: 10px solid transparent;
+            border-bottom-width: 0px;
+            border-right-width: 0px;
+            transform: translate(-50%, -50%) rotate(45deg);
+        }
+
+        .slider .drag-line span::before {
+            left: 40%;
+            border-left-color: #fff;
+        }
+
+        .slider .drag-line span::after {
+            left: 60%;
+            border-top-color: #fff;
+        }
+
+        /* Responsive image height in slider */
+        @media (max-width: 600px) {
+            .wrapper {
+                width: 90vw;
+                height: calc(90vw * 1);
+            }
+        }
+    </style>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.8.0/codemirror.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.5.3/clipboard.min.js"></script>
+    <script type="text/javascript" async
+        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML">
+    </script>
+    <script defer src="js/fontawesome.all.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
+    <script src="js/app.js"></script>
+    <script src="js/synced_video_selector.js"></script>
 </head>
-<body>
-  <main class="container" role="main" aria-label="Live High-Fidelity Semantic Communication via Cross-modal Fusion for Volumetric Video">
-    <h1>Live High-Fidelity Semantic Communication via Cross-modal Fusion for Volumetric Video</h1>
 
-    <img src="poster.png" alt="Illustration of LiFiSC method diagram" />
+<body style="padding: 1%; width: 100%; background:#fefefe;">
+    <div class="container-lg text-center" id="main">
+        <!-- Title and authors -->
+        <div class="row">
+            <h2 class="col-md-12 text-center">
+                <b><i>LiFiSCvv</i></b>: Live High-Fidelity Semantic Communication via<br />
+                Cross-modal Fusion for Volumetric Video<br />
+            </h2>
+        </div>
 
-    <p><strong>Overview of <span class="italic">LiFiSCvv</span>.</strong></p>
-    <p><span class="italic">LiFiSC</span> semantic communication framework represents a breakthrough paradigm for efficient data transmission in next-generation communication networks. However, SC technologies face significant challenges, including <strong>insufficient semantic feature representation</strong>, <strong>high communication latency</strong>, and <strong>sensitivity to channel noise</strong>.</p>
-    <p>To address these limitations, we propose a cross-modal fusion-based general semantic communication framework with <strong>strong generative semantic compression</strong> and <strong>high visual fidelity</strong>. We then extend it to <span class="italic">LiFiSCvv</span>, specifically designed to achieve <strong>3D volumetric video transmission and reconstruction</strong> with photorealistic visual quality and an <strong>end-to-end live watching experience with acceptable latency</strong>.</p>
-    <p>The proposed <span class="italic">LiFiSCvv</span> system comprises three key components:</p>
-    <ol>
-      <li><strong>Information redundancy reduction</strong> through lightweight video analysis and structure-from-motion techniques, decreasing reconstruction cost;</li>
-      <li><strong>Cross-modal fusion learning-driven codec mechanisms</strong> that enable efficient semantic representation and robust transmission against channel impairments;</li>
-      <li><strong>Feed-forward vision transformer</strong> for rapid volumetric video reconstruction and rendering.</li>
-    </ol>
-    <p>Our method takes unposed video as input. Initially, we design a video frame selection module with geometric and semantic priors to filter out keyframes. These keyframes are then encoded, transmitted, and decoded in real-time by our <span class="italic">LiFiSC</span> system. Finally, our proposed fast reconstruction module reconstructs point clouds from the received frames for immersive exploration.</p>
-    <p>Comprehensive evaluation results demonstrate that <span class="italic">LiFiSCvv</span> achieves an <strong>end-to-end real-time high-resolution photorealistic watching experience in seconds</strong> with <strong>42× semantic compression</strong>, significantly outperforming other methods in general image transmission and volumetric video transmission.</p>
-  </main>
+        <div class="col-md-12 text-center">
+            <ul class="list-inline" style="font-size: 1.7rem;">
+                <li>
+                    Tianyi Gong
+                    <sup>1, 2</sup>*
+                </li>
+                <li>
+                    Zijian Cao
+                    <sup>1, 2</sup>*
+                </li>
+                <li>
+                    Zhicheng Liang
+                    <sup>1, 2</sup>
+                </li>
+                <li>
+                    Dayou Zhang
+                    <sup>1, 2</sup>
+                </li>
+                <wbr />
+                <li>
+                    Fangxin Wang
+                    <sup>2, 1</sup>‡
+                </li>
+                <li>
+                    Shuguang Cui
+                    <sup>2, 1</sup>
+                </li>
+            </ul>
+        </div>
+
+        <div class="col-md-12 text-center" style="font-size: 1.6rem;">
+            <sup>1</sup>Shenzhen Future Network of Intelligence Institute (FNii)<br />
+            <sup>2</sup>School of Science and Engineering, The Chinese University of Hongkong, Shenzhen<br />
+            * equal contribution &nbsp; &nbsp; ‡ corresponding author
+        </div>
+
+        <!-- Pipeline image -->
+        <div class="row">
+            <div class="col-md-10 col-md-offset-1">
+                <img id="pipeline-ours" src="images/poster.png" alt="Pipeline image"
+                    style="width:100%; border-radius: 12px; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.1);" />
+            </div>
+        </div>
+
+        <!-- Abstract -->
+        <div class="row">
+            <div class="col-md-10 col-md-offset-1">
+                <h3>
+                    <b>Abstract</b>
+                </h3>
+                <p class="text-justify">
+                    Semantic communication (SC) emerges as a breakthrough paradigm for efficient data transmission in next-generation communication networks. However, SC is still in the infant stage with quite a few limitations, such as insufficient semantic representation capacity, high communication latency, and the susceptibility to channel noise. In this paper, we propose <b><i>LiFiSC</i></b>, a cross-modal fusion based generative semantic communication framework with strong semantic compression capacity and high-fidelity semantic restoration. We then extend it to <b><i>LiFiSCvv</i></b>, specifically designed to achieve 3D volumetric video transmission and reconstruction with photorealistic visual quality and pixel-level visual consistency, providing end-to-end live watching experience with acceptable latency. We innovatively incorporate unified vision-language encoding into semantic communication, achieving superior semantic understanding and compression. <b><i>LiFiSCvv</i></b> comprises three key components: (1) Information redundancy reduction through lightweight video analysis and structure-from-motion techniques, decreasing reconstruction cost; (2) Cross-modal fusion learning driven codec mechanisms that enable efficient semantic representation and robust transmission against channel impairments; and (3) Feed-forward vision transformer for rapid volumetric video reconstruction and rendering. Comprehensive evaluation results demonstrate that <b><i>LiFiSCvv</i></b> achieves a live high-fidelity and visually consistent video watching experience, with only seconds of end-to-end latency and around <b><i>42×</i></b> semantic compression, significantly outperforming SOTA methods in general image and volumetric video transmission.
+                </p>
+            </div>
+        </div>
+
+        <!-- Method explanation -->
+        <div class="row">
+            <div class="col-md-10 col-md-offset-1">
+                <h3>
+                    <b><i>LiFiSCvv</i></b> = <span style="color:#ef486e;">LiFiSC</span> +
+                    <span style="color:#118ab2;">Volumetric Video Transmission</span>
+                </h3>
+                <img src="images/overview.png" width="100%" alt="Overview Image"
+                    style="display: block; margin: 15px auto 25px auto; border-radius: 12px; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.1);" />
+                <p class="text-justify">
+                    Our method takes unposed video as input. Initially, we design a video frame selection module with geometric and semantic priors to filter out keyframes. Then these keyframes are then encoded, transmitted, and decoded in real-time by our <b><i>LiFiSC</i></b> system. Finally, our proposed fast reconstruction module reconstructs point clouds from the received frames for immersive exploration.
+                </p>
+            </div>
+        </div>
+
+        <!-- 你已有的 image comparison 区域修改 -->
+    <style>
+        /* 按钮容器 */
+        .compression-btn-container {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        /* 按钮基础样式 */
+        .compression-btn {
+            background-color: #f0f0f0;
+            border: none;
+            padding: 10px 18px;
+            font-size: 1.1rem;
+            border-radius: 24px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, color 0.3s ease;
+            box-shadow: 0 3px 6px rgb(0 0 0 / 0.1);
+            min-width: 80px;
+            text-align: center;
+            font-weight: 600;
+            color: #333;
+            user-select: none;
+        }
+
+        /* 突出显示的按钮 */
+        .compression-btn.ours {
+            background: linear-gradient(90deg, #1646ff, #118ab2);
+            color: white;
+            box-shadow: 0 6px 12px rgba(22, 70, 255, 0.6);
+        }
+
+        /* 激活状态 */
+        .compression-btn.active {
+            background-color: #118ab2;
+            color: white;
+            box-shadow: 0 6px 12px rgba(17, 138, 178, 0.6);
+        }
+
+        /* 悬停 */
+        .compression-btn:hover:not(.active):not(.ours) {
+            background-color: #ddd;
+        }
+
+        /* 缩略图选择容器，保持居中显示 */
+        .thumbnail-selector {
+            display: flex;
+            justify-content: center;
+            gap: 14px;
+            margin-top: 15px;
+        }
+
+        /* 缩略图基础样式 */
+        .thumbnail-selector img {
+            cursor: pointer;
+            width: 80px;
+            height: auto;
+            border-radius: 10px;
+            border: 2px solid transparent;
+            transition: border-color 0.2s ease;
+        }
+
+        /* 缩略图选中状态 */
+        .thumbnail-selector img.selected {
+            border-color: #118ab2;
+            box-shadow: 0 0 6px #118ab2aa;
+        }
+        </style>
+
+        <div class="row">
+        <div class="col-md-10 col-md-offset-1" style="text-align:center;">
+            <h3>
+                <b><i><span style="color:#ef486e;">LiFiSC</span><span style="color:#118ab2;">vv</span></i> Demo</b>
+            </h3>
+        </div>
+
+        <!-- <div class="row">
+            <div class="col-md-10 col-md-offset-1">
+                <video class="video" loop playsinline autoplay muted>
+                    <source src="videos/mountain.mp4"/>
+                </video>
+                <br>
+                <p class="text-justify">
+                    Our method takes unposed video as input. Initially, we design a video frame selection module with geometric and semantic priors to filter out keyframes. Then these keyframes are then encoded, transmitted, and decoded in real-time by our <b><i>LiFiSC</i></b> system. Finally, our proposed fast reconstruction module reconstructs point clouds from the received frames for immersive exploration.
+                </p>
+            </div>
+        </div> -->
+
+        <div class="row">
+            <div class="col-md-10 col-md-offset-1">
+                <!-- 横排按钮放这里 -->
+                <div class="compression-btn-container">
+                <button class="compression-btn ours active" data-compression="ours">Ours</button>
+                <button class="compression-btn" data-compression="jpeg">JPEG</button>
+                <button class="compression-btn" data-compression="hevc">HEVC</button>
+                <button class="compression-btn" data-compression="promptus">Promptus</button>
+                <button class="compression-btn" data-compression="hific">HiFiC</button>
+                </div>
+
+                <!-- 图片滑动对比 -->
+                <div class="wrapper" style="margin: auto;">
+                <div class="images">
+                    <div class="img-1"></div>
+                    <div class="img-2"></div>
+                </div>
+                <div class="slider">
+                    <div class="drag-line">
+                    <span></span>
+                    </div>
+                    <input type="range" min="0" max="100" value="50" />
+                </div>
+                </div>
+
+                <!-- 缩略图放下面 -->
+                <div class="thumbnail-selector">
+                <img src="images/original/bathroom.png" data-img="bathroom" alt="bathroom" class="selected" />
+                <img src="images/original/bedroom_warm.png" data-img="bedroom" alt="bedroom" />
+                <img src="images/original/dog.png" data-img="dog" alt="dog" />
+                <img src="images/original/kitchen.png" data-img="kitchen" alt="kitchen" />
+                <img src="images/original/living_room.png" data-img="living_room" alt="living_room" />
+                <img src="images/original/temple.png" data-img="temple" alt="temple" />
+                <img src="images/original/victorian.png" data-img="victorian" alt="victorian" />
+                </div>
+                <br>
+                <!-- 对比图说明 -->
+                <div class="col-md-10 col-md-offset-1">
+                    <p class="text-justify">
+                        Compressed Image Visualization Comparison (0.375 bpp) of <b><i>LiFiSC</i></b>. On the left are the images encoded and decoded by different methods, and on the right is the <b>Ground Truth</b>.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <script>
+        // JS 大体和之前差不多，只是加了类名控制突出显示
+        const imagesData = {
+            bathroom: {
+            left: 'images/original/bathroom.png',
+            right: {
+                ours: 'images/ours/bathroom.png',
+                jpeg: 'images/jpeg/bathroom.png',
+                hevc: 'images/hevc/bathroom.png',
+                promptus: 'images/promptus/bathroom.png',
+                hific: 'images/hific/bathroom.png'
+            }
+            },
+            bedroom: {
+            left: 'images/original/bedroom_warm.png',
+            right: {
+                ours: 'images/ours/bedroom_warm.png',
+                jpeg: 'images/jpeg/bedroom_warm.png',
+                hevc: 'images/hevc/bedroom_warm.png',
+                promptus: 'images/promptus/bedroom_warm.png',
+                hific: 'images/hific/bedroom_warm.png'
+            }
+            },
+            dog:{
+            left: 'images/original/dog.png',
+            right: {
+                ours: 'images/ours/dog.png',
+                jpeg: 'images/jpeg/dog.png',
+                hevc: 'images/hevc/dog.png',
+                promptus: 'images/promptus/dog.png',
+            }
+            },
+            kitchen:{
+            left: 'images/original/kitchen.png',
+            right: {
+                ours: 'images/ours/kitchen.png',
+                jpeg: 'images/jpeg/kitchen.png',
+                hevc: 'images/hevc/kitchen.png',
+                promptus: 'images/promptus/kitchen.png',
+                hific: 'images/hific/kitchen.png'
+            }
+            },
+            living_room:{
+            left: 'images/original/living_room.png',
+            right: {
+                ours: 'images/ours/living_room.png',
+                jpeg: 'images/jpeg/living_room.png',
+                hevc: 'images/hevc/living_room.png',
+                promptus: 'images/promptus/living_room.png',
+                hific: 'images/hific/living_room.png'
+            }
+            },
+            temple:{
+            left: 'images/original/temple.png',
+            right: {
+                ours: 'images/ours/temple.png',
+                jpeg: 'images/jpeg/temple.png',
+                hevc: 'images/hevc/temple.png',
+                promptus: 'images/promptus/temple.png',
+                hific: 'images/hific/temple.png'
+            }
+            },
+            victorian:{
+            left: 'images/original/victorian.png',
+            right: {
+                ours: 'images/ours/victorian.png',
+                jpeg: 'images/jpeg/victorian.png',
+                hevc: 'images/hevc/victorian.png',
+                promptus: 'images/promptus/victorian.png',
+                hific: 'images/hific/victorian.png'
+            }
+            },
+        };
+
+        let currentImageKey = 'bathroom';
+        let currentCompression = 'ours';
+
+        const img1Div = document.querySelector('.images .img-1');
+        const img2Div = document.querySelector('.images .img-2');
+        const slider = document.querySelector(".slider input[type='range']");
+        const dragLine = document.querySelector(".slider .drag-line");
+        const thumbnails = document.querySelectorAll('.thumbnail-selector img');
+        const compressionButtons = document.querySelectorAll('.compression-btn');
+
+        function updateImages() {
+            const data = imagesData[currentImageKey];
+            img1Div.style.backgroundImage = `url('${data.left}')`;
+            img2Div.style.backgroundImage = `url('${data.right[currentCompression]}')`;
+            slider.value = 50;
+            dragLine.style.left = '50%';
+            img2Div.style.width = '50%';
+        }
+
+        updateImages();
+
+        thumbnails.forEach(thumb => {
+            thumb.addEventListener('click', () => {
+            currentImageKey = thumb.getAttribute('data-img');
+            thumbnails.forEach(t => t.classList.remove('selected'));
+            thumb.classList.add('selected');
+            updateImages();
+            });
+        });
+
+        compressionButtons.forEach(btn => {
+            btn.addEventListener('click', () => {
+            currentCompression = btn.getAttribute('data-compression');
+            compressionButtons.forEach(b => b.classList.remove('active', 'ours'));
+            // “Ours”按钮特别保留样式
+            if(currentCompression === 'ours'){
+                btn.classList.add('ours');
+            }else{
+                btn.classList.add('active');
+            }
+            updateImages();
+            });
+        });
+
+        slider.oninput = () => {
+            let sliderVal = slider.value;
+            dragLine.style.left = sliderVal + "%";
+            img2Div.style.width = sliderVal + "%";
+        };
+        </script>
+
 </body>
 </html>
